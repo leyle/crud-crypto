@@ -1,0 +1,4 @@
+github.com/leyle/crud-log v0.0.0-20220813093031-6d992e885b07 h1:gTNGsCISDMyOZSYkqU8mvMhvikanj5C71ZhFewJrgvo=
+github.com/leyle/crud-log v0.0.0-20220813093031-6d992e885b07/go.mod h1:e/92dWnoly6bQO2mogyvkyMubTcwvcqenwf1S9/pKNs=
+github.com/leyle/crud-objectid v0.0.0-20220809073406-e84a3952d6ac h1:PywJ7tGftiN/JKyEPmnxms6UrEzl6mdgyU/Qk89FMZU=
+github.com/leyle/crud-objectid v0.0.0-20220809073406-e84a3952d6ac/go.mod h1:JI0ykNFW2zyUV39j/w65lHAJsTS1XHQ+i+NzXOnFnjo=

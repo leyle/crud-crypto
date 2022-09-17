@@ -89,6 +89,9 @@ func exportPrivateKeyToPEM(key *rsa.PrivateKey) string {
 
 func LoadPublicKey(publicPEM []byte) (*RSAKeyPair, error) {
 	block, _ := pem.Decode(publicPEM)
+	if block == nil {
+		return nil, errors.New("invalid public key pem data")
+	}
 	key, err := x509.ParsePKCS1PublicKey(block.Bytes)
 	if err != nil {
 		return nil, err
@@ -103,6 +106,9 @@ func LoadPublicKey(publicPEM []byte) (*RSAKeyPair, error) {
 
 func LoadPrivateKey(privatePEM []byte) (*RSAKeyPair, error) {
 	block, _ := pem.Decode(privatePEM)
+	if block == nil {
+		return nil, errors.New("invalid private key pem data")
+	}
 	key, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
 		return nil, err
@@ -113,6 +119,9 @@ func LoadPrivateKey(privatePEM []byte) (*RSAKeyPair, error) {
 }
 
 func (r *RSAKeyPair) Encrypt(message []byte) ([]byte, error) {
+	if message == nil {
+		return nil, errors.New("input message cannot be empty")
+	}
 	cipherText, err := rsa.EncryptOAEP(sha256.New(), rand.Reader, r.publicKey, message, nil)
 	if err != nil {
 		return nil, err
@@ -122,6 +131,9 @@ func (r *RSAKeyPair) Encrypt(message []byte) ([]byte, error) {
 }
 
 func (r *RSAKeyPair) Decrypt(cipherText []byte) ([]byte, error) {
+	if cipherText == nil {
+		return nil, errors.New("cipher text cannot be empty")
+	}
 	msg, err := rsa.DecryptOAEP(sha256.New(), rand.Reader, r.privateKey, cipherText, nil)
 	if err != nil {
 		return nil, err
@@ -133,6 +145,9 @@ func (r *RSAKeyPair) Decrypt(cipherText []byte) ([]byte, error) {
 func (r *RSAKeyPair) Sign(message []byte) (*RSASign, error) {
 	if r.privateKey == nil {
 		return nil, errors.New("no private key")
+	}
+	if message == nil {
+		return nil, errors.New("input message cannot be empty")
 	}
 
 	msgDigest := CreateMsgHashDigest(message)
@@ -154,6 +169,11 @@ func (r *RSAKeyPair) Verify(message, signature []byte) error {
 	if r.publicKey == nil {
 		return errors.New("no public key")
 	}
+
+	if message == nil || signature == nil {
+		return errors.New("message and signature cannot be empty")
+	}
+
 	msgDigest := CreateMsgHashDigest(message)
 	return rsa.VerifyPSS(r.publicKey, cryptoHashFunc, msgDigest, signature, nil)
 }

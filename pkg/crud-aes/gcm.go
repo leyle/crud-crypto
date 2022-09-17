@@ -5,7 +5,7 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"errors"
-	"gitlab.com/fabric-crud-v2/crud-crypto/pkg/utils"
+	"github.com/leyle/crud-crypto/pkg/utils"
 	"io"
 )
 

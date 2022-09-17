@@ -1,4 +1,4 @@
-module gitlab.com/fabric-crud-v2/crud-crypto
+module github.com/leyle/crud-crypto
 
 go 1.19
 

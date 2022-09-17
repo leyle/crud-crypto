@@ -1,7 +1,7 @@
 package crud_aes
 
 import (
-	"gitlab.com/fabric-crud-v2/crud-crypto/pkg/utils"
+	"github.com/leyle/crud-crypto/pkg/utils"
 	"testing"
 )
 

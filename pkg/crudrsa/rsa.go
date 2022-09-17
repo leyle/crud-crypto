@@ -1,4 +1,4 @@
-package crud_rsa
+package crudrsa
 
 import (
 	"crypto"
@@ -18,7 +18,6 @@ const (
 const preferBits = 4096
 
 var (
-	digestHashFunc = sha256.New()
 	cryptoHashFunc = crypto.SHA256
 )
 
@@ -114,7 +113,7 @@ func LoadPrivateKey(privatePEM []byte) (*RSAKeyPair, error) {
 }
 
 func (r *RSAKeyPair) Encrypt(message []byte) ([]byte, error) {
-	cipherText, err := rsa.EncryptOAEP(digestHashFunc, rand.Reader, r.publicKey, message, nil)
+	cipherText, err := rsa.EncryptOAEP(sha256.New(), rand.Reader, r.publicKey, message, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +122,7 @@ func (r *RSAKeyPair) Encrypt(message []byte) ([]byte, error) {
 }
 
 func (r *RSAKeyPair) Decrypt(cipherText []byte) ([]byte, error) {
-	msg, err := rsa.DecryptOAEP(digestHashFunc, rand.Reader, r.privateKey, cipherText, nil)
+	msg, err := rsa.DecryptOAEP(sha256.New(), rand.Reader, r.privateKey, cipherText, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +135,7 @@ func (r *RSAKeyPair) Sign(message []byte) (*RSASign, error) {
 		return nil, errors.New("no private key")
 	}
 
-	msgDigest := hashMsg(message)
+	msgDigest := CreateMsgHashDigest(message)
 
 	signature, err := rsa.SignPSS(rand.Reader, r.privateKey, cryptoHashFunc, msgDigest, nil)
 	if err != nil {
@@ -151,15 +150,17 @@ func (r *RSAKeyPair) Sign(message []byte) (*RSASign, error) {
 	return rsaSign, nil
 }
 
-func (r *RSAKeyPair) Verify(msgDigest, signature []byte) error {
+func (r *RSAKeyPair) Verify(message, signature []byte) error {
 	if r.publicKey == nil {
 		return errors.New("no public key")
 	}
+	msgDigest := CreateMsgHashDigest(message)
 	return rsa.VerifyPSS(r.publicKey, cryptoHashFunc, msgDigest, signature, nil)
 }
 
-func hashMsg(msg []byte) []byte {
-	digestHashFunc.Write(msg)
-	result := digestHashFunc.Sum(nil)
+func CreateMsgHashDigest(msg []byte) []byte {
+	fc := sha256.New()
+	fc.Write(msg)
+	result := fc.Sum(nil)
 	return result
 }

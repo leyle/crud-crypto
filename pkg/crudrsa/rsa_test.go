@@ -1,4 +1,4 @@
-package crud_rsa
+package crudrsa
 
 import (
 	"github.com/leyle/crud-crypto/pkg/utils"
@@ -24,7 +24,7 @@ func writePEMFile(name, data string) error {
 }
 
 func newRSAKPFromFile() *RSAKeyPair {
-	pemFile := "/tmp/pp.pem"
+	pemFile := "/tmp/p1.private"
 	pemData := readPEMFile(pemFile)
 	rsaKP, err := LoadPrivateKey(pemData)
 	if err != nil {
@@ -97,7 +97,7 @@ func TestRSAKeyPair_Verify(t *testing.T) {
 	t.Log(utils.HexEncodeCipherText(sign.MsgDigest))
 	t.Log(utils.HexEncodeCipherText(sign.Signature))
 
-	result := rsaKP.Verify(sign.MsgDigest, sign.Signature)
+	result := rsaKP.Verify([]byte(msg), sign.Signature)
 	t.Log(result)
 }
 
@@ -110,7 +110,7 @@ func TestRSAKeyPair_VerifyInvalid(t *testing.T) {
 	t.Log(utils.HexEncodeCipherText(sign.MsgDigest))
 	t.Log(utils.HexEncodeCipherText(sign.Signature))
 
-	result := rsaKP.Verify(sign.MsgDigest, []byte("invalid data"))
+	result := rsaKP.Verify([]byte(msg), []byte("invalid data"))
 	t.Log(result)
 
 	result2 := rsaKP.Verify([]byte("invalid data"), sign.Signature)
@@ -119,27 +119,23 @@ func TestRSAKeyPair_VerifyInvalid(t *testing.T) {
 
 func TestSignAndVerify2(t *testing.T) {
 	// generate key pair, save them, then load from file
-	/*
-		rskKP1, err := NewRSAKeyPair()
-		if err != nil {
-			t.Fatal(err)
-		}
+	rskKP1, err := NewRSAKeyPair()
+	if err != nil {
+		t.Fatal(err)
+	}
 
-		priv1 := "/tmp/p1.private"
-		pub1 := "/tmp/p1.public"
-
-			err = writePEMFile(priv1, rskKP1.PrivateKeyPEM)
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			err = writePEMFile(pub1, rskKP1.PublicKeyPEM)
-			if err != nil {
-				t.Fatal(err)
-			}
-	*/
 	priv1 := "/tmp/p1.private"
 	pub1 := "/tmp/p1.public"
+
+	err = writePEMFile(priv1, rskKP1.PrivateKeyPEM)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = writePEMFile(pub1, rskKP1.PublicKeyPEM)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	// use p1's private key sign message, then load p1's public key to verify
 	rawMSG := []byte("golang is programming language")

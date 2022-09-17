@@ -1,4 +1,4 @@
-package crud_aes
+package crudaes
 
 import (
 	"github.com/leyle/crud-crypto/pkg/utils"

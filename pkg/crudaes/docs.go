@@ -1,4 +1,4 @@
-package crud_aes
+package crudaes
 
 /*
 How to choose an AES encryption mode (CBC ECB CTR OCB CFB)? - Stack Overflow

@@ -1,4 +1,4 @@
-package crud_rsa
+package crudrsa
 
 /*
 Implementing RSA Encryption and Signing in Golang (With Examples)

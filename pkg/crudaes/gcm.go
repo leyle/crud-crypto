@@ -1,4 +1,4 @@
-package crud_aes
+package crudaes
 
 import (
 	"crypto/aes"

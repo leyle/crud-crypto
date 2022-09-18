@@ -5,12 +5,12 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"errors"
-	"github.com/leyle/crud-crypto/pkg/utils"
+	"github.com/leyle/crud-crypto/pkg/cryptoutils"
 	"io"
 )
 
 func GcmEncrypt(key, text []byte) ([]byte, error) {
-	key32 := utils.MakeKeyLength32(key)
+	key32 := cryptoutils.MakeKeyLength32(key)
 	c, err := aes.NewCipher(key32)
 	if err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func GcmEncrypt(key, text []byte) ([]byte, error) {
 }
 
 func GcmDecrypt(key, cipherText []byte) ([]byte, error) {
-	key32 := utils.MakeKeyLength32(key)
+	key32 := cryptoutils.MakeKeyLength32(key)
 	c, err := aes.NewCipher(key32)
 	if err != nil {
 		return nil, err

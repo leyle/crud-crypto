@@ -1,7 +1,7 @@
 package crudrsa
 
 import (
-	"github.com/leyle/crud-crypto/pkg/cryptoutils"
+	"github.com/leyle/crud-crypto/pkg/crudutils"
 	"os"
 	"testing"
 )
@@ -84,8 +84,8 @@ func TestRSAKeyPair_Sign(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(cryptoutils.HexEncodeCipherText(sign.MsgDigest))
-	t.Log(cryptoutils.HexEncodeCipherText(sign.Signature))
+	t.Log(crudutils.HexEncodeCipherText(sign.MsgDigest))
+	t.Log(crudutils.HexEncodeCipherText(sign.Signature))
 }
 
 func TestRSAKeyPair_Verify(t *testing.T) {
@@ -94,8 +94,8 @@ func TestRSAKeyPair_Verify(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(cryptoutils.HexEncodeCipherText(sign.MsgDigest))
-	t.Log(cryptoutils.HexEncodeCipherText(sign.Signature))
+	t.Log(crudutils.HexEncodeCipherText(sign.MsgDigest))
+	t.Log(crudutils.HexEncodeCipherText(sign.Signature))
 
 	result := rsaKP.Verify([]byte(msg), sign.Signature)
 	t.Log(result)
@@ -107,8 +107,8 @@ func TestRSAKeyPair_VerifyInvalid(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Log(cryptoutils.HexEncodeCipherText(sign.MsgDigest))
-	t.Log(cryptoutils.HexEncodeCipherText(sign.Signature))
+	t.Log(crudutils.HexEncodeCipherText(sign.MsgDigest))
+	t.Log(crudutils.HexEncodeCipherText(sign.Signature))
 
 	result := rsaKP.Verify([]byte(msg), []byte("invalid data"))
 	t.Log(result)

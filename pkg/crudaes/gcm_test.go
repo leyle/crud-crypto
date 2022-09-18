@@ -1,7 +1,7 @@
 package crudaes
 
 import (
-	"github.com/leyle/crud-crypto/pkg/cryptoutils"
+	"github.com/leyle/crud-crypto/pkg/crudutils"
 	"testing"
 )
 
@@ -23,12 +23,12 @@ func TestGCMEncrypt(t *testing.T) {
 	t.Log(cipherText)
 	t.Log(string(cipherText))
 
-	t.Log(cryptoutils.HexEncodeCipherText(cipherText))
+	t.Log(crudutils.HexEncodeCipherText(cipherText))
 }
 
 func TestGcmDecrypt(t *testing.T) {
 	cipherText := encrypt()
-	t.Log(cryptoutils.HexEncodeCipherText(cipherText))
+	t.Log(crudutils.HexEncodeCipherText(cipherText))
 
 	text, err := GcmDecrypt(key, cipherText)
 	if err != nil {
@@ -42,7 +42,7 @@ func TestGcmDecrypt(t *testing.T) {
 func TestGCMDecryptSRCHex(t *testing.T) {
 	// raw := "B2h+HK3at6Yo0pkWbsTgMRx6gy7es9u70v9hVrvqOa/q85pk9jixgA=="
 	raw := "8db8c7073975be91bf85801b5aa4711b11f046c7c18e7dc2a9a30ea209569044aec77abdb00ff13e"
-	decodeBytes, err := cryptoutils.HexDecodeCipherString(raw)
+	decodeBytes, err := crudutils.HexDecodeCipherString(raw)
 	if err != nil {
 		t.Error(err)
 	}
@@ -57,11 +57,11 @@ func TestGCMDecryptSRCHex(t *testing.T) {
 
 func TestEncryptAndDecrypt(t *testing.T) {
 	cipherText := encrypt()
-	b64Str := cryptoutils.HexEncodeCipherText(cipherText)
+	b64Str := crudutils.HexEncodeCipherText(cipherText)
 
 	t.Log(b64Str)
 
-	srcCipherText, err := cryptoutils.HexDecodeCipherString(b64Str)
+	srcCipherText, err := crudutils.HexDecodeCipherString(b64Str)
 	if err != nil {
 		panic(err)
 	}

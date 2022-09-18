@@ -1,4 +1,4 @@
-package cryptoutils
+package crudutils
 
 import (
 	"crypto/md5"
